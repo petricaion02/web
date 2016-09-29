@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'comment',
     'like',
     'abstract',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +137,13 @@ STATICFILES_DIRS = ('/home/server/Documents/projects/technotrack/Web2/src/static
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/home/server/Documents/projects/technotrack/Web2/collected_media'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100,
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}

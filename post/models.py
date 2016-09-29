@@ -7,8 +7,13 @@ from like.models import LikableModel
 from comment.models import CommentableModel
 from user.models import UserProfile
 from image.models import Image
+from event.models import MentionableModel
 
-class Post(CreatableModel, UpdatableModel, LikableModel, CommentableModel):
-    author = models.ForeignKey(UserProfile, related_name=u'post')
+class Post(CreatableModel, UpdatableModel, LikableModel, CommentableModel,
+           MentionableModel):
+    user = models.ForeignKey("user.UserProfile", related_name="post")
     text = models.TextField(default='')
     attachments = models.ManyToManyField(Image, related_name=u'post')
+
+    def getInvolvedUsers(self):
+        return set([self.user])

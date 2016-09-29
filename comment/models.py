@@ -4,12 +4,19 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.fields import GenericRelation
 from abstract.models import CreatableModel, UpdatableModel
 from like.models import LikableModel
+from event.models import MentionableModel
+
+class CommentableModel(models.Model):
+    comment = GenericRelation("comment.Comment", object_id_field="item_id",
+                              content_type_field="item_type")
+    comments_count = models.IntegerField(default=0)
+    class Meta:
+        abstract = True
 
 
-# Create your models here.
-class Comment(CreatableModel, UpdatableModel, LikableModel):
-    user_author = models.ForeignKey('user.UserProfile', related_name=u'comment',
-                                    verbose_name=u'User')
+class Comment(CreatableModel, UpdatableModel, LikableModel, MentionableModel,
+              CommentableModel):
+    user = models.ForeignKey("user.UserProfile", related_name="comment")
     item_type = models.ForeignKey(ContentType, related_name=u'comment')
     item_id = models.PositiveIntegerField()
     item = GenericForeignKey('item_type', 'item_id')
@@ -18,10 +25,7 @@ class Comment(CreatableModel, UpdatableModel, LikableModel):
         verbose_name = u'Comment'
         verbose_name_plural = u'Comments'
 
-
-class CommentableModel(models.Model):
-    comment = GenericRelation(Comment, object_id_field="item_id",
-                              content_type_field="item_type")
-    comments_count = models.IntegerField(default=0)
-    class Meta:
-        abstract = True
+    def getInvolvedUsers(self):
+        return set([self.user,
+                    self.item_type.model_class().objects.get(
+                                    id=self.item_id).user])
