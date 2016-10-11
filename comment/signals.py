@@ -4,8 +4,10 @@ from django.contrib.contenttypes.models import ContentType
 
 from comment.models import Comment
 
+
 def comment_post_save(sender, **kwargs):
     print(kwargs)
+
     if (kwargs.get('created', True)):
         comment = kwargs.get('instance')
         item = comment.item_type.model_class().objects.get(id=comment.item_id)
