@@ -5,6 +5,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from abstract.models import CreatableModel, UpdatableModel
 from like.models import LikableModel
 from event.models import MentionableModel
+from rest_framework import serializers
 
 
 class CommentableModel(models.Model):

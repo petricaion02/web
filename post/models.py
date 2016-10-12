@@ -14,8 +14,9 @@ class Post(CreatableModel, UpdatableModel, LikableModel, CommentableModel,
            MentionableModel):
 
     user = models.ForeignKey("user.UserProfile", related_name="post")
+    title = models.TextField(default='')
     text = models.TextField(default='')
-    attachments = models.ManyToManyField(Image, related_name=u'post')
+    attachments = models.ManyToManyField(Image, related_name=u'post', blank=True)
 
     def get_involved_users(self):
         return set([self.user])

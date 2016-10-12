@@ -11,7 +11,7 @@ def user_post_save(sender, **kwargs):
     print("user post save", kwargs)
     if (kwargs.get('created', True)):
         UserProfile.objects.create(user=kwargs.get('instance'))
-        Token.objects.create(user=instance)
+        Token.objects.create(user=kwargs.get('instance'))
 
 
 post_save.connect(user_post_save, User)

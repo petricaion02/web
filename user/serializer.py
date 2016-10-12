@@ -3,9 +3,8 @@ from user.models import UserProfile
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-
     user = serializers.StringRelatedField()
 
     class Meta:
         model = UserProfile
-        fields = ('id', 'user', 'gender', 'avatar')
+        fields = ('id', 'user', 'gender', 'avatar', 'created_at')
