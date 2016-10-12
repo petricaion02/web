@@ -12,7 +12,9 @@ GENDER_CHOICES = (
     ('P', 'Prefer not to answer'),
 )
 
+
 class UserProfile(CreatableModel, UpdatableModel):
+
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 related_name='profile',
                                 verbose_name=u'User')
@@ -34,9 +36,10 @@ class UserProfile(CreatableModel, UpdatableModel):
 
 
 class FriendShip(CreatableModel, MentionableModel):
+
     first_user = models.ForeignKey(UserProfile, related_name='my_requests')
     second_user = models.ForeignKey(UserProfile, related_name='me_requests')
 
-    def getInvolvedUsers(self):
+    def get_involved_users(self):
         return set([self.first_user, self.second_user])
 # Create your models here.

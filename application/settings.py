@@ -86,9 +86,9 @@ WSGI_APPLICATION = 'application.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'VK_DB',
-        'USER': 'DJ_USER',
-        'PASSWORD': 'VK_PW',
+        'NAME': 'social_db',
+        'USER': 'postgres',
+        'PASSWORD': 'reserved',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -132,11 +132,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/server/Documents/projects/technotrack/Web2/collected_static'
-STATICFILES_DIRS = ('/home/server/Documents/projects/technotrack/Web2/src/static', )
+STATIC_ROOT = '/home/sergio/techno_web_2/network/collected_static/'
+STATICFILES_DIRS = ('/home/sergio/techno_web_2/network/src/static/', )
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/home/server/Documents/projects/technotrack/Web2/collected_media'
+MEDIA_ROOT = '/home/sergio/techno_web_2/network/collected_media'
 
 
 REST_FRAMEWORK = {

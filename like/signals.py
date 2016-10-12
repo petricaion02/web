@@ -4,7 +4,9 @@ from django.contrib.contenttypes.models import ContentType
 
 from like.models import Like, LikableModel
 
+
 def like_post_save(sender, **kwargs):
+
     if (kwargs.get('created', True)):
         like = kwargs.get('instance')
         print(like.item_type, like.item_id)
@@ -15,6 +17,7 @@ def like_post_save(sender, **kwargs):
 
 
 def like_post_delete(sender, **kwargs):
+
     like = kwargs.get('instance')
     item = like.item_type.model_class().objects.get(id=like.item_id)
     item.likes_count = F('likes_count') - 1

@@ -4,19 +4,21 @@ from django.contrib.contenttypes.models import ContentType
 
 from event.models import Event, MentionableModel
 
+
 def mentionable_post_save(sender, **kwargs):
     item = kwargs.get('instance')
+
     if (kwargs.get('created', True)):
         event = Event(type='C',
                       item=item)
         event.save()
-        for user in item.getInvolvedUsers():
+        for user in item.get_involved_users():
             event.users.add(user)
     else:
         event = Event(type='U',
                       item=item)
         event.save()
-        for user in item.getInvolvedUsers():
+        for user in item.get_involved_users():
             event.users.add(user)
 
 

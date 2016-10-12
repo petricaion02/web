@@ -11,7 +11,9 @@ EVENT_TYPE_CHOICES = (
     ('U', 'Update'),
 )
 
+
 class Event(CreatableModel):
+
     users = models.ManyToManyField('user.UserProfile', related_name='event')
     action_type = models.CharField(max_length=1, choices=EVENT_TYPE_CHOICES)
     item_type = models.ForeignKey(ContentType, related_name=u'event')
@@ -27,6 +29,7 @@ class Event(CreatableModel):
 
 
 class MentionableModel(models.Model):
+
     events = GenericRelation(Event, object_id_field="item_id",
                              content_type_field="item_type")
 
