@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+from application import local_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -86,9 +87,9 @@ WSGI_APPLICATION = 'application.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'social_db',
-        'USER': 'postgres',
-        'PASSWORD': 'reserved',
+        'NAME': local_settings.DB_NAME,
+        'USER': local_settings.DB_USER,
+        'PASSWORD': local_settings.DB_PASSWORD,
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -132,11 +133,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/sergio/techno_web_2/network/collected_static/'
-STATICFILES_DIRS = ('/home/sergio/techno_web_2/network/src/static/', )
+STATIC_ROOT = local_settings.STATIC_ROOT
+STATICFILES_DIRS = local_settings.STATICFILES_DIRS
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/home/sergio/techno_web_2/network/collected_media'
+MEDIA_ROOT = local_settings.MEDIA_ROOT
 
 
 REST_FRAMEWORK = {
