@@ -47,10 +47,9 @@ INSTALLED_APPS = [
     'comment',
     'like',
     'abstract',
-    'rest_framework',
-    'rest_framework.authtoken',
     'oauth2_provider',
     'corsheaders',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -62,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
 ]
 
 ROOT_URLCONF = 'application.urls'
@@ -149,9 +149,26 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100,
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
     ),
+}
+
+AUTHENTICATION_BACKENDS = (
+    'oauth2_provider.backends.OAuth2Backend',
+    'django.contrib.auth.backends.ModelBackend'
+)
+
+OAUTH2_PROVIDER = {
+    # this is the list of available scopes
+    'SCOPES': {'read': 'Read scope (likes, comments, posts, ...)',
+               'write': 'Write scope (likes, comments, posts, ...)',
+               'profile:read': 'Read access to your profile info',
+               'profile:write': 'Write access to your profile info',
+               'friends': 'Access to your friends', #UNIMPLEMENTED
+               'chat:read' : 'Read access to your chats and messages',
+               'chat:write' : 'Write access to your chats and messages',
+               },
 }
 
 #Required for oauth provider

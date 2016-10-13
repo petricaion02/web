@@ -6,9 +6,12 @@ from user.models import UserProfile
 from application.permissions import IsUserOrReadOnly
 from rest_framework import permissions
 from rest_framework import viewsets
+from oauth2_provider.ext.rest_framework import TokenHasResourceScope
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
-    permission_classes = (permissions.IsAuthenticated, IsUserOrReadOnly)
+    required_scopes = ['profile']
+    permission_classes = (permissions.IsAuthenticated, IsUserOrReadOnly,
+                          TokenHasResourceScope)

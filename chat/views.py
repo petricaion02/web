@@ -8,14 +8,16 @@ from rest_framework import viewsets
 from application.permissions import IsAuthorOrReadOnly
 from chat.permissions import IsInChatMessage, IsInChat
 from user.models import FriendShip, UserProfile
+from oauth2_provider.ext.rest_framework import TokenHasResourceScope
 import operator
 
 
 class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
+    required_scopes = ['chat']
     permission_classes = (permissions.IsAuthenticated, IsAuthorOrReadOnly,
-                          IsInChatMessage)
+                          IsInChatMessage, TokenHasResourceScope)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user.profile)
@@ -35,8 +37,9 @@ class MessageViewSet(viewsets.ModelViewSet):
 class ChatViewSet(viewsets.ModelViewSet):
     queryset = Chat.objects.all()
     serializer_class = ChatSerializer
+    required_scopes = ['chat']
     permission_classes = (permissions.IsAuthenticated, IsInChat,
-                          IsAuthorOrReadOnly)
+                          IsAuthorOrReadOnly, TokenHasResourceScope)
 
     def perform_create(self, serializer):
         author = self.request.user.profile

@@ -8,7 +8,6 @@ from comment.views import CommentViewSet
 from like.views import LikeViewSet
 from chat.views import ChatViewSet, MessageViewSet
 
-from rest_framework import authtoken
 router = routers.DefaultRouter()
 router.register(r'user', UserProfileViewSet, base_name='user')
 router.register(r'post', PostViewSet, base_name='post')
@@ -22,5 +21,4 @@ urlpatterns = router.urls
 
 urlpatterns += [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api-token-auth/', authtoken.views.obtain_auth_token),
 ]
