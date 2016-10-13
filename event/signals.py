@@ -9,13 +9,13 @@ def mentionable_post_save(sender, **kwargs):
     item = kwargs.get('instance')
 
     if (kwargs.get('created', True)):
-        event = Event(type='C',
+        event = Event(action_type='C',
                       item=item)
         event.save()
         for user in item.get_involved_users():
             event.users.add(user)
     else:
-        event = Event(type='U',
+        event = Event(action_type='U',
                       item=item)
         event.save()
         for user in item.get_involved_users():
