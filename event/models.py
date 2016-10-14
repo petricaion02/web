@@ -33,7 +33,7 @@ class MentionableModel(models.Model):
     events = GenericRelation(Event, object_id_field="item_id",
                              content_type_field="item_type")
 
-    def getInvolvedUsers(self):
+    def get_involved_users(self):
         pass
 
     class Meta:

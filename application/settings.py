@@ -26,6 +26,7 @@ SECRET_KEY = '^(47+6&_216f^ups_jf6f-#=@izdp$-yhek9cmw%5ro&-(&z10'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = []
 
 
@@ -50,6 +51,8 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'corsheaders',
     'rest_framework',
+    'social.apps.django_app.default',
+    # 'social_auth'
 ]
 
 MIDDLEWARE = [
@@ -154,10 +157,22 @@ REST_FRAMEWORK = {
     ),
 }
 
+SOCIAL_AUTH_VK_OAUTH2_KEY = '5666481'
+SOCIAL_AUTH_VK_OAUTH2_SECRET = 'ebyAec27gyk7NLaCTCN0'
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
+
+
+
 AUTHENTICATION_BACKENDS = (
     'oauth2_provider.backends.OAuth2Backend',
-    'django.contrib.auth.backends.ModelBackend'
+    'social.backends.vk.VKOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
 )
+
+SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
+    'social.backends.vk.VKOAuth2',
+)
+
 
 OAUTH2_PROVIDER = {
     # this is the list of available scopes

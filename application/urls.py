@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^api/v1/', include(api_urls)),
     url('^', include('django.contrib.auth.urls')),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    url('^', include('social.apps.django_app.urls', namespace='social'))
 ]
