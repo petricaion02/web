@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <script type="text/babel">
+
+        var config = {
+            container: document.getElementsByClassName('b-feed')[0],
+            api_client_id: 'K3mguv60CF2T8Oq7icUff2PQLLKjNDUrgvEUuQpx'
+        }
+
+        class Post extends React.Component {
+            state = {
+                attachments: {},
+            }
+
+            getAttachmentUrl(pk) {
+                if (this.state.attachments[pk]) {
+                    return;
+                }
+
+                let _this = this;
+                fetchWithAuth('/api/v1/image/' + pk.toString() + '/')
+                    .then(function(response) {
+                        return response.json().then((data) => {
+                            _this.setState({
+                                attachments:
+                                    update(_this.state.attachments,
+                                           { [pk]: {$set: data["url"]}}),
+                            });
+                        });
+                    });
+            }
+
+            getUser(pk) {
+                if (this.state.user) {
+                    return;
+                }
+                let _this = this;
+                fetchWithAuth('/api/v1/user/' + pk.toString() + '/')
+                    .then(function(response) {
+                        console.log(response);
+                        return response.json().then((data) => {
+                            console.log(data);
+                            _this.setState({user: data["user"],});
+                        });
+                    });
+            }
+
+            render() {
+                this.props.attachments.forEach(this.getAttachmentUrl.bind(this));
+                this.getUser(this.props.user);
+                return (
+                    <div>
+                        <div className="row">
+                          <div className="col-sm-12">
+                            <div className="">
+                             <h1>{this.state.user ? this.state.user : ''}</h1>
+                             <p><small>{ this.props.created_at } </small></p>
+
+                             <img src="http://chocolatevent.by/sites/default/files/noavatar.png" className="img-circle" height="55" width="55" alt="Avatar" />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-sm-12">
+                            <div className="">
+                              <p style={ {whiteSpace: 'pre-wrap', textAlign: 'left'} }>{ this.props.text }</p>
+                              {Object.keys(this.state.attachments).map((item) => <img src={this.state.attachments[item]} height="55"/>)}
+
+                              <p className="pull-right"> Likes: {{post.likes_count}} </p>
+                            </div>
+                            <hr />
+                          </div>
+                        </div>
+                    </div>
+                )
+            }
+        }
+
+        class PostList extends React.Component {
+            state = {
+                objects : [],
+            }
+            inited = false;
+
+            loadDataFromServer() {
+                let _this = this
+                fetchWithAuth('/api/v1/post/').then(function(response) {
+                        if (response.status)
+                        console.log(response);
+                        response.json().then(function(data) {
+                            console.log(data);
+                            _this.setState({objects: data.results});
+                            console.log(_this.state);
+                        })
+                    }).catch(function(err) {
+                        console.log(err);
+                    })
+            }
+
+            render() {
+                console.log("RENDER");
+                if (!this.inited) {
+                    this.inited =  true;
+                    this.loadDataFromServer();
+                }
+                return (
+                    <div>
+                        {this.state.objects.map((item) => <Post {...item} />)}
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <PostList />,
+            config.container
+        )
+
+
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="row" />
+        <div class="col-sm-12" >
+            <input type="text" class="form-control" placeholder="Search..">
+        </div>
+    </div>
+    <div class="b-feed">
+            FEED
+    </div>
+{% endblock %}

@@ -20,3 +20,6 @@ class Post(CreatableModel, UpdatableModel, LikableModel, CommentableModel,
 
     def get_involved_users(self):
         return set([self.user])
+
+    def __str__(self):
+        return str(self.user) + ":" + self.title

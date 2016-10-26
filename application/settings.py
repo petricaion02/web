@@ -164,9 +164,9 @@ SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
 
 
 AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
     'oauth2_provider.backends.OAuth2Backend',
     'social.backends.vk.VKOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
 )
 
 SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
