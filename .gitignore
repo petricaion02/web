@@ -3,3 +3,4 @@ __pycache__/
 manage.py
 application/local_settings.py
 *~
+node_modules

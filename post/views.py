@@ -36,6 +36,11 @@ class PostViewSet(viewsets.ModelViewSet):
         if self.request.query_params.get('username'):
             qs = qs.filter(user__user__username=
                 self.request.query_params.get('username'))
+        if self.request.query_params.get('q'):
+            qs = qs.filter(
+                Q(text__icontains=self.request.query_params.get('q')) |
+                Q(title__icontains=self.request.query_params.get('q'))
+            )
         return qs
 
 class PostList(ListView):
