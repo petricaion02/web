@@ -12,6 +12,12 @@ from oauth2_provider.ext.rest_framework import TokenHasResourceScope
 import operator
 
 
+def chats(request):
+    return render(request=request, template_name='chat/chats.html')
+
+def chat(request, pk):
+    return render(request, 'chat/chat.html', {'pk': pk})
+
 class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer

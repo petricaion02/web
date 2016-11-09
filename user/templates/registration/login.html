@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% load addcss %}
 
+{% block head %}
+    <link href="https://lipis.github.io/bootstrap-social/bootstrap-social.css" rel="stylesheet" />
+    <link href="https://lipis.github.io/bootstrap-social/assets/css/font-awesome.css" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
 
 {% if form.errors %}
@@ -31,7 +36,14 @@
         {% add_args form.password class="form-control" placeholder="Password" id="password"%}
 
         <input type="submit" id="submit" class="btn btn-lg btn-primary btn-block" value="Sign in" />
-        <input type="hidden" name="next" value="{% if next  %}{{next}}{% else %}{% url 'posts:all_posts' %}{% endif %}" />
+        <input type="hidden" name="next" value="/js_login/" />
+
+        <br />
+
+        <a class="btn btn-block btn-social btn-vk" href="/login/vk-oauth2">
+          <span class="fa fa-vk"></span>
+          Sign in with VK
+        </a>
     </form>
 
 </div>

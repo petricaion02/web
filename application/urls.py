@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework.authtoken import views
+from application.views import get_token_view
 
 import api_urls
 
@@ -23,7 +24,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/v1/', include(api_urls)),
     url(r'^posts/', include('post.urls', namespace='posts')),
+    url(r'^chats/', include('chat.urls', namespace='chats')),
     url('^', include('django.contrib.auth.urls')),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    url('^', include('social.apps.django_app.urls', namespace='social'))
+    url('^', include('social.apps.django_app.urls', namespace='social')),
+    url(r'^js_login/', get_token_view, name='js-token'),
 ]
